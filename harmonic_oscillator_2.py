@@ -20,9 +20,9 @@ energy_2_arr = np.zeros((len(beta_arr)))
 for j, beta in enumerate(beta_arr):
 
 
-    energy_2_arr[j] = simulation_twf_2(mc_step_no, beta, x_lim)
+    energy_2_arr[j], variance = simulation_twf_2(mc_step_no, beta, x_lim)
 
-    print(f'{j} | {beta} | {energy_2_arr[j]}')
+    print(f'{j} | {beta} | {energy_2_arr[j]} | {variance}')
 
 # print(energy_2)
 # print(beta_arr)
