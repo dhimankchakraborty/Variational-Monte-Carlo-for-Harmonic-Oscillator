@@ -2,31 +2,35 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 from functions import *
+from simulations import *
 
 
 
 
-mc_step_no = 100000
+mc_step_no = 1000000
 # therm_step_no = mc_step_no
 
-beta_arr = np.round(np.linspace(0, 2, 21)[1:], 3)
+# a = 2
+# B = np.sqrt(15 / (16 * np.pow(a, 5)))
+a_arr = np.round(np.linspace(1, 3, 21)[1:], 3)
+
 x_lim = 5
 
-energy_1_arr = np.zeros((len(beta_arr)))
+energy_1_arr = np.zeros((len(a_arr)))
 
-for j, beta in enumerate(beta_arr):
+for j, a in enumerate(a_arr):
 
-    A = np.pow(((2 * beta) / np.pi), 0.25)
 
-    rng = np.random.default_rng()
+    energy_1_arr[j] = simulation_twf_1(mc_step_no, a, x_lim)
 
-    res = 0
-    for i in prange(mc_step_no):
-        x = (rng.random() * 2 * x_lim) - x_lim 
-        res += probability_density_1(x, a, B, trial_wave_function_1) * local_energy_2(x, beta)
+    print(f'{j} | {a} | {energy_1_arr[j]}')
 
-    energy_2 = res / mc_step_no
+# print(energy_2)
+# print(beta_arr)
 
-    energy_1_arr[j] = energy_2
-
-    print(f'{j} | {beta} | {energy_2}')
+plt.plot(a_arr, energy_1_arr, marker='o')
+plt.title(r'Energy vs Parameter ($a$) [$\Psi_t = (a^2 - x^2)$ for $|x| \leq a$, 0 elsewhere]')
+plt.xlabel(r'Parameter ($a$)')
+plt.ylabel(r'Energy ($\epsilon$)')
+plt.grid()
+plt.show()
